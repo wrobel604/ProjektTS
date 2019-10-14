@@ -56,11 +56,17 @@ namespace Server
                 if (tcpListener != null) { tcpListener.Stop(); }
                 Console.WriteLine("Server stop");
             }*/
-
-            TcpServer tcpServer = new TcpServer(new TcpListener(IPAddress.Parse("127.0.0.1"), 17));
-            Console.WriteLine("Server start");
-            tcpServer.Listening(new ReceivedParseTest());
-
+            try
+            {
+                TcpServer tcpServer = new TcpServer(new TcpListener(IPAddress.Parse("127.0.0.1"), 17));
+                Console.WriteLine("Server start");
+                tcpServer.Listening(new ReceivedParseTest());
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            
             Console.WriteLine("END");
             Console.ReadKey();
         }

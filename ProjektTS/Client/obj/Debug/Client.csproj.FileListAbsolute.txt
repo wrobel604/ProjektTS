@@ -5,3 +5,9 @@ D:\User\Studia\III Semestr\Technologie sieciowe\Lab_8\KomunikacjaSieciowa\Komuni
 D:\User\Studia\III Semestr\Technologie sieciowe\Lab_8\KomunikacjaSieciowa\KomunikacjaSieciowe\Client\obj\Debug\Client.exe
 D:\User\Studia\III Semestr\Technologie sieciowe\Lab_8\KomunikacjaSieciowa\KomunikacjaSieciowe\Client\obj\Debug\Client.pdb
 D:\User\Studia\III Semestr\Technologie sieciowe\Lab_8\KomunikacjaSieciowa\KomunikacjaSieciowe\Client\obj\Debug\Client.csprojAssemblyReference.cache
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Client\bin\Debug\Client.exe.config
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Client\bin\Debug\Client.exe
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Client\bin\Debug\Client.pdb
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Client\obj\Debug\Client.exe
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Client\obj\Debug\Client.pdb
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Client\obj\Debug\Client.csprojAssemblyReference.cache

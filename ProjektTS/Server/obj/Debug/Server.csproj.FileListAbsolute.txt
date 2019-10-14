@@ -4,3 +4,9 @@ D:\User\Studia\III Semestr\Technologie sieciowe\Lab_8\KomunikacjaSieciowa\Komuni
 D:\User\Studia\III Semestr\Technologie sieciowe\Lab_8\KomunikacjaSieciowa\KomunikacjaSieciowe\Server\obj\Debug\Server.csproj.CoreCompileInputs.cache
 D:\User\Studia\III Semestr\Technologie sieciowe\Lab_8\KomunikacjaSieciowa\KomunikacjaSieciowe\Server\obj\Debug\Server.exe
 D:\User\Studia\III Semestr\Technologie sieciowe\Lab_8\KomunikacjaSieciowa\KomunikacjaSieciowe\Server\obj\Debug\Server.pdb
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Server\bin\Debug\Server.exe.config
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Server\bin\Debug\Server.exe
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Server\bin\Debug\Server.pdb
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Server\obj\Debug\Server.csprojAssemblyReference.cache
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Server\obj\Debug\Server.exe
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Server\obj\Debug\Server.pdb

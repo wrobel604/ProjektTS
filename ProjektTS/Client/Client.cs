@@ -10,29 +10,30 @@ namespace Client
 {
     class Client
     {
-        static void receivedEvent(NetworkStream stream)
+        /*static NetworkStream stream = null;
+        static void receivedEvent()
         {
             int size;
             byte[] data = new byte[256]; string message = null;
-            
-            while((size = stream.Read(data, 0, data.Length)) != 0)
+
+            while (stream != null && (size = stream.Read(data, 0, data.Length)) != 0)
             {
-                message = Encoding.ASCII.GetString(data);
+                message = Encoding.ASCII.GetString(data).Substring(0,size);
                 Console.WriteLine(message);
             }
-        }
+        }*/
         static void Main(string[] args)
         {
-            TcpClient client = new TcpClient();
-            NetworkStream stream = null;
+            /*TcpClient client = new TcpClient();
+            
             byte[] data = null;string message = null;
-            //Task receivedTask = new Task(receivedEvent, stream);//receivedEvent(stream);
-            //receivedTask.Start();
+            Task task = new Task(receivedEvent);
             try
             {
                 client.Connect(IPAddress.Parse("127.0.0.1"), 17);
                 stream = client.GetStream();
                 Console.WriteLine("Polaczono");
+                task.Start();
                 while (client.Connected)
                 {
                     message = Console.ReadLine();
@@ -46,10 +47,26 @@ namespace Client
             }
             finally
             {
-                //receivedTask.Dispose();
+                stream = null;
+                task.Dispose();
                 client.Close();
-            }
+            }*/
+            try
+            {
+                TcpClientCommunication tcpClient = new TcpClientCommunication();
+                tcpClient.ReadStream = new ReadAnswerTest();
+                tcpClient.connect(IPAddress.Parse("127.0.0.1"), 17);
+                tcpClient.listening();
+                string message = null;
+                while (message != "exit")
+                {
+                    message = Console.ReadLine();
+                    tcpClient.send(message);
+                }
+            }catch(Exception e) { Console.WriteLine(e.ToString()); }
             
+            Console.WriteLine("END");
+            Console.Read();
         }
     }
 }
