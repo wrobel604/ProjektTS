@@ -8,7 +8,7 @@ using System.Net.Sockets;
 
 namespace Client
 {
-    class TcpClientCommunication
+    public class TcpClientCommunication
     {
         TcpClient tcpClient = null;
         NetworkStream stream = null;
@@ -17,21 +17,27 @@ namespace Client
         public ReadStreamInterface ReadStream
         {
             set { 
-                readStream = value;
-                messageReceiverTask = new Task(readStream.readStream);
+                readStream = value; 
+                 messageReceiverTask = new Task(readStream.readStream);
                 if (stream != null)
                 {
-                    messageReceiverTask.Start();
+                    //messageReceiverTask.Start();
                 }
             }
             get => readStream;
         }
+        public bool isConnected { get => (tcpClient != null) ? tcpClient.Connected : false; }
 
         public TcpClientCommunication()
         {
             tcpClient = new TcpClient();
         }
-        ~TcpClientCommunication() { stream = null; }
+        ~TcpClientCommunication() {
+            if (tcpClient != null)
+            {
+                stream = null; tcpClient.Close();
+            }
+        }
         public void connect(IPAddress ip, int port)
         {
             if (tcpClient != null) { 
@@ -45,7 +51,7 @@ namespace Client
         }
         public void send(string message)
         {
-            if(stream!=null)
+            if(stream!=null && tcpClient.Connected)
             {
                 stream.Write(Encoding.ASCII.GetBytes(message), 0, message.Length);
             }
@@ -63,6 +69,10 @@ namespace Client
                 ReadStream.streamToRead = stream;
             }
             messageReceiverTask.Start();
+        }
+        public void Close()
+        {
+            tcpClient.Close();
         }
     }
 }

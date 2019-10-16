@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 namespace Client
 {
-    interface ReadStreamInterface
+    public interface ReadStreamInterface
     {
         NetworkStream streamToRead { set; get; }
         void readStream();
