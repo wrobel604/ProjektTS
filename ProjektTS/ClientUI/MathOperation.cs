@@ -14,10 +14,21 @@ namespace ClientUI
     public partial class MathOperation : Form
     {
         CalculatorOperation calculatorOperation;
+        public Action closeReturn = null;
+        public Client.TcpClientCommunication tcpClient;
         public MathOperation()
         {
             InitializeComponent();
             calculatorOperation = new CalculatorOperation();
+        }
+        public MathOperation(Action closeFunc) : this()
+        {
+            closeReturn = closeFunc;
+        }
+        public MathOperation(Client.TcpClientCommunication client , Action closeFunc) : this()
+        {
+            closeReturn = closeFunc;
+            tcpClient = client;
         }
 
         private void OperacjaBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -29,6 +40,19 @@ namespace ClientUI
         {
             TextBox textBox = (TextBox)sender;
             if (RegexTests.isNumber(textBox.Text) || textBox.Text.Length==0) { textBox.BackColor = Color.White; }else { textBox.BackColor = Color.Red; }
+        }
+
+        private void CloseWindow(object sender, FormClosedEventArgs e)
+        {
+            if(closeReturn != null)
+            {
+                closeReturn();
+            }
+        }
+
+        private void SendData(object sender, EventArgs e)
+        {
+            Data.Text = DateTime.Now.ToString();
         }
     }
 }

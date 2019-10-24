@@ -14,15 +14,12 @@ namespace ClientUI
     public partial class Form1 : Form
     {
         Client.TcpClientCommunication tcpClientCommunication;
-        
+        MathOperation mathOperation;
         public Form1()
         {
             InitializeComponent();
             tcpClientCommunication = new Client.TcpClientCommunication();
-            Kalkulator kalkulator = new Kalkulator();
-            kalkulator.Show();
-            MathOperation mathOperation = new MathOperation();
-            mathOperation.Show();
+            mathOperation = new MathOperation(this.Show);
         }
 
         private void ConnectButton_Click(object sender, EventArgs e)
@@ -41,6 +38,8 @@ namespace ClientUI
                     if (tcpClientCommunication.isConnected)
                     {
                         ConnectButton.Text = "Rozłącz";
+                        mathOperation.Show();
+                        this.Hide();
                     }
                 }
             }

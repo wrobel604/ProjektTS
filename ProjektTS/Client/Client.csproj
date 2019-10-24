@@ -37,6 +37,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,14 +47,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConnectWindow.Designer.cs">
+      <DependentUpon>ConnectWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MessageBuiderInterface.cs" />
     <Compile Include="ReadStreamInterface.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="ReadAnswerTest.cs" />
+    <Compile Include="RegexTests.cs" />
+    <Compile Include="SimpleMessage.cs" />
     <Compile Include="TcpClientCommunication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ConnectWindow.resx">
+      <DependentUpon>ConnectWindow.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

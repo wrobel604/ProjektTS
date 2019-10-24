@@ -1,6 +1,6 @@
-﻿namespace ClientUI
+﻿namespace Client
 {
-    partial class Form1
+    public partial class ConnectWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -47,7 +47,7 @@
             this.panel1.Location = new System.Drawing.Point(12, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(185, 77);
-            this.panel1.TabIndex = 6;
+            this.panel1.TabIndex = 7;
             // 
             // Adress
             // 
@@ -55,7 +55,9 @@
             this.Adress.Name = "Adress";
             this.Adress.Size = new System.Drawing.Size(100, 20);
             this.Adress.TabIndex = 1;
+            this.Adress.Text = "127.0.0.1";
             this.Adress.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.Adress.TextChanged += new System.EventHandler(this.Adress_TextChanged);
             // 
             // ConnectButton
             // 
@@ -83,6 +85,8 @@
             this.PortBox.Name = "PortBox";
             this.PortBox.Size = new System.Drawing.Size(64, 21);
             this.PortBox.TabIndex = 2;
+            this.PortBox.Text = "17";
+            this.PortBox.SelectedIndexChanged += new System.EventHandler(this.PortBox_SelectedIndexChanged);
             // 
             // TextPort
             // 
@@ -93,14 +97,14 @@
             this.TextPort.TabIndex = 3;
             this.TextPort.Text = "Port";
             // 
-            // Form1
+            // ConnectWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(214, 107);
+            this.ClientSize = new System.Drawing.Size(211, 98);
             this.Controls.Add(this.panel1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "ConnectWindow";
+            this.Text = "ConnectWindow";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -110,11 +114,10 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox Adress;
         private System.Windows.Forms.Button ConnectButton;
         private System.Windows.Forms.Label TextAdress;
-        private System.Windows.Forms.ComboBox PortBox;
         private System.Windows.Forms.Label TextPort;
+        public System.Windows.Forms.TextBox Adress;
+        public System.Windows.Forms.ComboBox PortBox;
     }
 }
-

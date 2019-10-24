@@ -16,13 +16,48 @@ namespace Client
             {
                 TcpClientCommunication tcpClient = new TcpClientCommunication();
                 tcpClient.ReadStream = new ReadAnswerTest();
-                tcpClient.connect(IPAddress.Parse("127.0.0.1"), 17);
-                tcpClient.listening();
-                string message = null;
-                while (message != "exit")
+                ConnectWindow connectWindow = new ConnectWindow();
+                var dialogResult = connectWindow.ShowDialog();
+                if(dialogResult == System.Windows.Forms.DialogResult.OK)
                 {
-                    message = Console.ReadLine();
-                    tcpClient.send(message);
+                    tcpClient.connect(IPAddress.Parse(connectWindow.Adress.Text), int.Parse(connectWindow.PortBox.Text));
+                    if (tcpClient.isConnected)
+                    {
+                        string message = null;
+                        //tcpClient.listening();
+                        SimpleMessage simpleMessage = new SimpleMessage();
+                        tcpClient.send(simpleMessage.buildMessage());
+                        simpleMessage = new SimpleMessage(tcpClient.receiveMessage());
+                        Console.WriteLine($"Połączono z serwerem o adresie {connectWindow.Adress.Text} na porcie {connectWindow.PortBox.Text}");
+                        Console.WriteLine("Możesz wpisywać liczby oddzielone spacją (w liczbach zmiennoprzecinkowych jest używany ',') lub znak/nazwę działania, które chcesz wykonać (jeśli wpiszesz następne działanie, poprzednie zostanie zastąpione)");
+                        Console.WriteLine("Dostępne działania:");
+                        Console.WriteLine("- dodaj (+)");
+                        Console.WriteLine("- odejmij (-)");
+                        Console.WriteLine("- mnozenie (*)");
+                        Console.WriteLine("- dzielenie (/)");
+                        Console.WriteLine("- modulo (%)");
+                        Console.WriteLine("- potega (^)");
+                        Console.WriteLine("- logarytm (log)");
+                        Console.WriteLine("- pierwiastek");
+                        Console.WriteLine("- exit - rozłącz z serwerem");
+                        Console.WriteLine("- send - wyślij działanie");
+                        while (message != "exit")
+                        {
+                            do
+                            {
+                                Console.Write(simpleMessage.id + "> ");
+                                message = Console.ReadLine();
+                            } while (simpleMessage.add(message));
+                            tcpClient.send(simpleMessage.buildMessage());
+                            message = tcpClient.receiveMessage();
+                            simpleMessage = new SimpleMessage(message);
+                            Console.WriteLine(simpleMessage.dateTime.ToString() + $") {simpleMessage.numbersToString()}");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Nie udało się połączyć z serwerem");
+                    }
                 }
             }catch(Exception e) { Console.WriteLine(e.ToString()); }
             

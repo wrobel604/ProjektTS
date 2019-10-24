@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
+using System.IO;
 
 namespace Client
 {
@@ -69,6 +70,18 @@ namespace Client
                 ReadStream.streamToRead = stream;
             }
             messageReceiverTask.Start();
+        }
+        public string receiveMessage()
+        {
+            string rec = "";
+            byte[] streamByteArray = new byte[256];
+            int i = 0;
+            while ((i = stream.Read(streamByteArray, 0, 256)) != 0)
+            {
+                rec = Encoding.ASCII.GetString(streamByteArray).Substring(0, i);
+                break;
+            }
+            return rec;
         }
         public void Close()
         {

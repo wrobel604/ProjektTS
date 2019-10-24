@@ -35,13 +35,13 @@
             this.StatusMenu = new System.Windows.Forms.StatusStrip();
             this.StatusTitle = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusValue = new System.Windows.Forms.ToolStripStatusLabel();
+            this.DataText = new System.Windows.Forms.ToolStripStatusLabel();
+            this.Data = new System.Windows.Forms.ToolStripStatusLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.WynikBox = new System.Windows.Forms.TextBox();
-            this.DataText = new System.Windows.Forms.ToolStripStatusLabel();
-            this.Data = new System.Windows.Forms.ToolStripStatusLabel();
             this.label5 = new System.Windows.Forms.Label();
             this.StatusMenu.SuspendLayout();
             this.SuspendLayout();
@@ -68,8 +68,10 @@
             // 
             // OperacjaBox
             // 
-            this.OperacjaBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OperacjaBox.DropDownWidth = 200;
+            this.OperacjaBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OperacjaBox.FormattingEnabled = true;
+            this.OperacjaBox.IntegralHeight = false;
             this.OperacjaBox.Items.AddRange(new object[] {
             "Dodaj",
             "Odejmij",
@@ -78,10 +80,10 @@
             "Potega x^y",
             "Perwiastek x^(1/y)",
             "log_x(y)",
-            "Silnia x!"});
-            this.OperacjaBox.Location = new System.Drawing.Point(98, 35);
+            "Modulo"});
+            this.OperacjaBox.Location = new System.Drawing.Point(98, 36);
             this.OperacjaBox.Name = "OperacjaBox";
-            this.OperacjaBox.Size = new System.Drawing.Size(80, 39);
+            this.OperacjaBox.Size = new System.Drawing.Size(80, 32);
             this.OperacjaBox.TabIndex = 3;
             this.OperacjaBox.SelectedIndexChanged += new System.EventHandler(this.OperacjaBox_SelectedIndexChanged);
             // 
@@ -93,6 +95,7 @@
             this.SendResult.TabIndex = 4;
             this.SendResult.Text = "Wynik";
             this.SendResult.UseVisualStyleBackColor = true;
+            this.SendResult.Click += new System.EventHandler(this.SendData);
             // 
             // StatusMenu
             // 
@@ -119,6 +122,22 @@
             this.StatusValue.Name = "StatusValue";
             this.StatusValue.Size = new System.Drawing.Size(80, 17);
             this.StatusValue.Text = "Niepołączono";
+            // 
+            // DataText
+            // 
+            this.DataText.Name = "DataText";
+            this.DataText.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.DataText.Size = new System.Drawing.Size(159, 17);
+            this.DataText.Spring = true;
+            this.DataText.Text = "Czas:";
+            this.DataText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // Data
+            // 
+            this.Data.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Data.Name = "Data";
+            this.Data.Size = new System.Drawing.Size(37, 17);
+            this.Data.Text = "00000";
             // 
             // label1
             // 
@@ -166,22 +185,6 @@
             this.WynikBox.TabIndex = 24;
             this.WynikBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // DataText
-            // 
-            this.DataText.Name = "DataText";
-            this.DataText.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.DataText.Size = new System.Drawing.Size(128, 17);
-            this.DataText.Spring = true;
-            this.DataText.Text = "Czas:";
-            this.DataText.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // Data
-            // 
-            this.Data.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Data.Name = "Data";
-            this.Data.Size = new System.Drawing.Size(37, 17);
-            this.Data.Text = "00000";
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -210,6 +213,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "MathOperation";
             this.Text = "MathOperation";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CloseWindow);
             this.StatusMenu.ResumeLayout(false);
             this.StatusMenu.PerformLayout();
             this.ResumeLayout(false);

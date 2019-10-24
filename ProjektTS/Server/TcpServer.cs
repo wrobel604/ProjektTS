@@ -54,6 +54,7 @@ namespace Server
                 {
                     tcpClient = tcpListener.AcceptTcpClient();
                     networkStream = tcpClient.GetStream();
+                    Console.WriteLine($"Polaczono z klientem {((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString()}");
                     while(tcpClient.Connected && (receiveddatasize = networkStream.Read(streamByteArray, 0, streamByteArray.Length)) != 0)
                     {
                         message = Encoding.ASCII.GetString(streamByteArray).Substring(0,receiveddatasize);

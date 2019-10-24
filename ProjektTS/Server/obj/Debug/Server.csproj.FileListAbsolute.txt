@@ -10,3 +10,7 @@ C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Server\bin\
 C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Server\obj\Debug\Server.csprojAssemblyReference.cache
 C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Server\obj\Debug\Server.exe
 C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Server\obj\Debug\Server.pdb
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Server\bin\Debug\Client.exe
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Server\bin\Debug\Client.pdb
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Server\bin\Debug\Client.exe.config
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Server\obj\Debug\Server.csproj.CopyComplete

@@ -14,10 +14,17 @@ namespace Server
         {
             try
             {
-                TcpServer tcpServer = new TcpServer(new TcpListener(IPAddress.Parse("127.0.0.1"), 17));
-                Console.WriteLine("Server start");
-                //Action<ReceivedParseInterface> b = tcpServer.Listening;
-                tcpServer.Listening(new ReceivedParseTest(tcpServer));
+                Client.ConnectWindow connectWindow = new Client.ConnectWindow();
+                var dialogResult = connectWindow.ShowDialog();
+                if(dialogResult == System.Windows.Forms.DialogResult.OK)
+                {
+                    TcpServer tcpServer = new TcpServer(new TcpListener(IPAddress.Parse(connectWindow.Adress.Text), int.Parse(connectWindow.PortBox.Text)));
+
+                    Console.WriteLine("Server start");
+                    //Action<ReceivedParseInterface> b = tcpServer.Listening;
+                    //tcpServer.Listening(new ReceivedParseTest(tcpServer));
+                    tcpServer.Listening(new MathOperationMessageParse(tcpServer));
+                }
             }
             catch(Exception e)
             {
