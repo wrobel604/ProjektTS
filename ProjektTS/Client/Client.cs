@@ -41,18 +41,20 @@ namespace Client
                         Console.WriteLine("- pierwiastek");
                         Console.WriteLine("- exit - rozłącz z serwerem");
                         Console.WriteLine("- send - wyślij działanie");
-                        while (message != "exit")
+                        while (simpleMessage.operation != "exit")
                         {
                             do
                             {
-                                Console.Write(simpleMessage.id + "> ");
+                                Console.Write("ID: "+simpleMessage.id + "> ");
                                 message = Console.ReadLine();
                             } while (simpleMessage.add(message));
                             tcpClient.send(simpleMessage.buildMessage());
                             message = tcpClient.receiveMessage();
                             simpleMessage = new SimpleMessage(message);
+                            Console.WriteLine("Answer status: " + SimpleMessage.statusName[int.Parse(simpleMessage.status)]);
                             Console.WriteLine(simpleMessage.dateTime.ToString() + $") {simpleMessage.numbersToString()}");
                         }
+                        tcpClient.Close();
                     }
                     else
                     {

@@ -9,6 +9,7 @@ namespace Client
 {
     public class SimpleMessage : MessageBuiderInterface
     {
+        public static readonly string[] statusName = { "OK", "Przepełnienie bufora zmiennej", "Dzielenie przez zero", "Nie można pierwiastkować liczb ujemnych"};
         public List<double> numbers;
         public DateTime dateTime;
         //Według implementacji odpowiedź to status
@@ -65,23 +66,14 @@ namespace Client
                     case "numbers": Console.WriteLine(numbersToString());break;
                     case "clear": numbers.Clear();break;
                     case "delete": numbers.RemoveAt(numbers.Count-1);break;
-                }
-                return true;
-            }
-            //Liczby
-            regex = new Regex(@"([\-0-9]+,{0,1}[0-9]*)");
-            MatchCollection matchCollection = regex.Matches(value);
-            if (matchCollection.Count>0)
-            {
-                foreach (Match nr in matchCollection)
-                {
-                    //Console.WriteLine("_" + nr.Value + "_");
-                    numbers.Add(double.Parse(nr.Value));
+                    case "op":
+                    case "operation": Console.WriteLine(operation);break;
+                    case "message": Console.WriteLine(ToString());break;
                 }
                 return true;
             }
             //Znaki
-            regex = new Regex(@"([+\-*\/\^%])");
+            regex = new Regex(@"^([+\-*\/\^%])$");
             match = regex.Match(value);
             if (match.Success)
             {
@@ -94,6 +86,20 @@ namespace Client
                     case "%": return add("modulo");
                     case "^": return add("potega");
                 }
+                return true;
+            }
+            //Liczby
+            regex = new Regex(@"([\-0-9]+,{0,1}[0-9]*)");
+            MatchCollection matchCollection = regex.Matches(value);
+            if (matchCollection.Count>0)
+            {
+                foreach (Match nr in matchCollection)
+                {
+                    Console.Write("_" + nr.Value + "_");
+                    numbers.Add(double.Parse(nr.Value));
+                }
+                Console.WriteLine();
+                return true;
             }
             return true;
         }
@@ -110,5 +116,11 @@ namespace Client
         {
             return $"ID:{id};OD:{status};OP:{operation};TIME:{dateTime.Ticks.ToString()};LA:{numbersToString()};";
         }
+        public override string ToString()
+        {
+            string result = $"TIME: {dateTime}\nID: {id}\nStatus: {status}\nOperation: {operation}\nNumbers: {numbersToString()}\n";
+            return result;
+        }
+
     }
 }

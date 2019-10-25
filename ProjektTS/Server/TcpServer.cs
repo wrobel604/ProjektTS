@@ -79,5 +79,13 @@ namespace Server
                 tcpClient.Close();
             }
         }
+        public void CloseClient(string message)
+        {
+            if(tcpClient != null)
+            {
+                tcpClient.GetStream().Write(Encoding.ASCII.GetBytes(message), 0, message.Length);
+                tcpClient.Close();
+            }
+        }
     }
 }
