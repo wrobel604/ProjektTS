@@ -17,7 +17,7 @@ namespace Client
 
         public SimpleMessage() { numbers = new List<double>(); }
         public SimpleMessage(string message) : this(){
-            Regex regex = new Regex(@"([A-Z]+):([a-zA-Z0-9\s]*);");
+            Regex regex = new Regex(@"([A-Z]+):([,a-zA-Z0-9\s]*);");
             MatchCollection matchCollection = regex.Matches(message);
             if (matchCollection.Count > 0)
             {
@@ -25,6 +25,7 @@ namespace Client
                 {
                     if (match.Groups.Count == 3)
                     {
+                        Console.WriteLine(match.Groups[1].Value + "\t"+match.Groups[2].Value);
                         setValue(match.Groups[1].Value, match.Groups[2].Value);
                     }
                 }
@@ -89,7 +90,7 @@ namespace Client
                 return true;
             }
             //Liczby
-            regex = new Regex(@"([\-0-9]+,{0,1}[0-9]*)");
+            regex = new Regex(@"\s*([\-0-9]+,{0,1}[0-9]*)\s*");
             MatchCollection matchCollection = regex.Matches(value);
             if (matchCollection.Count>0)
             {

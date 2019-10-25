@@ -30,6 +30,7 @@ namespace Server
         {
             simpleMessage = new Client.SimpleMessage(message);
             Console.WriteLine("Odebrano:");
+            Console.WriteLine(message);
             Console.WriteLine(simpleMessage.ToString());
             simpleMessage.status = "0";
             List<double> result = new List<double>();
