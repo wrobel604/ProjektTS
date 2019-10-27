@@ -39,6 +39,7 @@ namespace Client
                         Console.WriteLine("- potega (^)");
                         Console.WriteLine("- logarytm (log)");
                         Console.WriteLine("- pierwiastek");
+                        Console.WriteLine("- message ");
                         Console.WriteLine("- exit - rozłącz z serwerem");
                         Console.WriteLine("- send - wyślij działanie");
                         while (simpleMessage.operation != "exit")
@@ -51,8 +52,8 @@ namespace Client
                             tcpClient.send(simpleMessage.buildMessage());
                             message = tcpClient.receiveMessage();
                             simpleMessage = new SimpleMessage(message);
-                            Console.WriteLine("Answer status: " + SimpleMessage.statusName[int.Parse(simpleMessage.status)]);
-                            Console.WriteLine(simpleMessage.dateTime.ToString() + $") {simpleMessage.numbersToString()}");
+                            Console.WriteLine("Status odpowiedzi: " + SimpleMessage.statusName[int.Parse(simpleMessage.status)]);
+                            Console.WriteLine(simpleMessage.dateTime.ToString() + $" - Wynik) {simpleMessage.numbersToString()}");
                         }
                         tcpClient.Close();
                     }

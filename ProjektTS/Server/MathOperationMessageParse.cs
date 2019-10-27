@@ -33,116 +33,150 @@ namespace Server
             Console.WriteLine(message);
             Console.WriteLine(simpleMessage.ToString());
             simpleMessage.status = "0";
-            List<double> result = new List<double>();
-            switch (simpleMessage.operation)
+            if (simpleMessage.numbers.Count != 0)
             {
-                case "dodaj": {
-                        double suma = 0;
-                        try
+                List<double> result = new List<double>();
+                switch (simpleMessage.operation)
+                {
+                    case "dodaj":
                         {
-                            foreach (double i in simpleMessage.numbers) { suma += i; }
-                            result.Add(suma);
-                        }
-                        catch(ArgumentOutOfRangeException e)
-                        {
-                            simpleMessage.status = "1";
-                        }
-                    } break;
-                case "odejmij":
-                    {
-                        int size = simpleMessage.numbers.Count-1;
-                        for(int i = 0; i < size; ++i)
-                        {
-                            result.Add(simpleMessage.numbers[i] - simpleMessage.numbers[i + 1]);
-                        }
-                    } break;
-                case "mnozenie": {
-                        double iloczyn = 1;
-                        try
-                        {
-                            foreach (double i in simpleMessage.numbers) { iloczyn *= i; }
-                            result.Add(iloczyn);
-                        }
-                        catch (ArgumentOutOfRangeException e)
-                        {
-                            simpleMessage.status = "1";
-                        }
-
-                    } break;
-                case "dzielenie": {
-                        int size = simpleMessage.numbers.Count - 1;
-                        for (int i = 0; i < size; ++i)
-                        {
-                            if(simpleMessage.numbers[i + 1] != 0) 
-                            { result.Add(simpleMessage.numbers[i] / simpleMessage.numbers[i + 1]); } else
+                            double suma = 0;
+                            try
                             {
-                                simpleMessage.status = "2";
+                                foreach (double i in simpleMessage.numbers) { suma += i; }
+                                if (double.IsNaN(suma) || double.IsInfinity(suma))
+                                {
+                                    throw new OverflowException();
+                                }
+                                result.Add(suma);
                             }
-                           
-                        }
-                    } break;
-                case "log":
-                case "logarytm": {
-                        int size = simpleMessage.numbers.Count - 1;
-                        for (int i = 0; i < size; ++i)
-                        {
-                            if (simpleMessage.numbers[i + 1] != 0 && simpleMessage.numbers[i]!=0) { 
-                                result.Add(Math.Log(simpleMessage.numbers[i + 1], simpleMessage.numbers[i]));
-                            }
-                            else
+                            catch (OverflowException e)
                             {
-                                simpleMessage.status = "2";
+                                simpleMessage.status = "1";
                             }
-
                         }
-                    } break;
-                case "modulo": {
-                        int size = simpleMessage.numbers.Count - 1;
-                        for (int i = 0; i < size; ++i)
-                        {
-                            if (simpleMessage.numbers[i + 1] != 0) { result.Add(simpleMessage.numbers[i] % simpleMessage.numbers[i + 1]); }
-                            else
-                            {
-                                simpleMessage.status = "2";
-                            }
-
-                        }
-                    } break;
-                case "potega": {
-                        try
+                        break;
+                    case "odejmij":
                         {
                             int size = simpleMessage.numbers.Count - 1;
                             for (int i = 0; i < size; ++i)
                             {
-                                double number = Math.Pow(simpleMessage.numbers[i], simpleMessage.numbers[i + 1]);
-                                if(double.IsNaN(number) || double.IsInfinity(number))
-                                {
-                                    throw new ArgumentOutOfRangeException();
-                                }
-                                else { }
-                                result.Add(number);
+                                result.Add(simpleMessage.numbers[i] - simpleMessage.numbers[i + 1]);
                             }
                         }
-                        catch (ArgumentOutOfRangeException e)
+                        break;
+                    case "mnozenie":
                         {
-                            simpleMessage.status = "1";
-                        }
-                    } break;
-                case "pierwiastek": {
-                        foreach(double d in simpleMessage.numbers)
-                        {
-                            if (d < 0) { simpleMessage.status = "3"; } else
+                            double iloczyn = 1;
+                            try
                             {
-                                result.Add(Math.Sqrt(d));
+                                foreach (double i in simpleMessage.numbers) { iloczyn *= i; }
+                                if (double.IsNaN(iloczyn) || double.IsInfinity(iloczyn))
+                                {
+                                    throw new OverflowException();
+                                }
+                                result.Add(iloczyn);
+                            }
+                            catch (OverflowException e)
+                            {
+                                simpleMessage.status = "1";
+                            }
+
+                        }
+                        break;
+                    case "dzielenie":
+                        {
+                            int size = simpleMessage.numbers.Count - 1;
+                            for (int i = 0; i < size; ++i)
+                            {
+                                if (simpleMessage.numbers[i + 1] != 0)
+                                { result.Add(simpleMessage.numbers[i] / simpleMessage.numbers[i + 1]); }
+                                else
+                                {
+                                    simpleMessage.status = "2";
+                                }
+
                             }
                         }
-                    } break;
-                case "exit": {
-                        tcpServer.CloseClient(simpleMessage.buildMessage());
-                        return "";
-                    } 
+                        break;
+                    case "log":
+                    case "logarytm":
+                        {
+                            int size = simpleMessage.numbers.Count - 1;
+                            for (int i = 0; i < size; ++i)
+                            {
+                                if (simpleMessage.numbers[i + 1] > 0 && simpleMessage.numbers[i] != 0)
+                                {
+                                    result.Add(Math.Log(simpleMessage.numbers[i + 1], simpleMessage.numbers[i]));
+                                }
+                                else
+                                {
+                                    simpleMessage.status = "2";
+                                }
+
+                            }
+                        }
+                        break;
+                    case "modulo":
+                        {
+                            int size = simpleMessage.numbers.Count - 1;
+                            for (int i = 0; i < size; ++i)
+                            {
+                                if (simpleMessage.numbers[i + 1] != 0) { result.Add(simpleMessage.numbers[i] % simpleMessage.numbers[i + 1]); }
+                                else
+                                {
+                                    simpleMessage.status = "2";
+                                }
+
+                            }
+                        }
+                        break;
+                    case "potega":
+                        {
+                            try
+                            {
+                                int size = simpleMessage.numbers.Count - 1;
+                                for (int i = 0; i < size; ++i)
+                                {
+                                    double number = Math.Pow(simpleMessage.numbers[i], simpleMessage.numbers[i + 1]);
+                                    if (double.IsNaN(number) || double.IsInfinity(number))
+                                    {
+                                        throw new OverflowException();
+                                    }
+                                    result.Add(number);
+                                }
+                            }
+                            catch(OverflowException e)
+                            {
+                                simpleMessage.status = "1";
+                            }
+                        }
+                        break;
+                    case "pierwiastek":
+                        {
+                            foreach (double d in simpleMessage.numbers)
+                            {
+                                if (d < 0) { simpleMessage.status = "3"; }
+                                else
+                                {
+                                    result.Add(Math.Sqrt(d));
+                                }
+                            }
+                        }
+                        break;
+                    case "exit":
+                        {
+                            tcpServer.CloseClient(simpleMessage.buildMessage());
+                            return "";
+                        }
+                }
+                simpleMessage.numbers = result;
             }
-            simpleMessage.numbers = result;
+            else
+            {
+                simpleMessage.status = "4";
+            }
+            
             if (simpleMessage.id == "") { simpleMessage.id = (++id).ToString(); }
             simpleMessage.dateTime = DateTime.Now;
 

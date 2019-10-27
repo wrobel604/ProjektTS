@@ -9,7 +9,7 @@ namespace Client
 {
     public class SimpleMessage : MessageBuiderInterface
     {
-        public static readonly string[] statusName = { "OK", "Przepełnienie bufora zmiennej", "Dzielenie przez zero", "Nie można pierwiastkować liczb ujemnych"};
+        public static readonly string[] statusName = { "OK", "Przepełnienie bufora zmiennej", "Dzielenie przez zero", "Nie można pierwiastkować liczb ujemnych", "Podano zbyt mało liczb"};
         public List<double> numbers;
         public DateTime dateTime;
         //Według implementacji odpowiedź to status
@@ -17,7 +17,7 @@ namespace Client
 
         public SimpleMessage() { numbers = new List<double>(); }
         public SimpleMessage(string message) : this(){
-            Regex regex = new Regex(@"([A-Z]+):([,a-zA-Z0-9\s]*);");
+            Regex regex = new Regex(@"([A-Za-z]+):([\-,a-zA-Z0-9\s]*);");
             MatchCollection matchCollection = regex.Matches(message);
             if (matchCollection.Count > 0)
             {
@@ -25,7 +25,7 @@ namespace Client
                 {
                     if (match.Groups.Count == 3)
                     {
-                        Console.WriteLine(match.Groups[1].Value + "\t"+match.Groups[2].Value);
+                        //Console.WriteLine("Test:\t"+match.Groups[1].Value + "\t"+match.Groups[2].Value);
                         setValue(match.Groups[1].Value, match.Groups[2].Value);
                     }
                 }
@@ -34,11 +34,11 @@ namespace Client
         public void setValue(string header, string value) {
             switch (header)
             {
-                case "ID": id = value;break;
-                case "OD": status = value;break;
-                case "OP": operation = value;break;
+                case "Identyfikator": id = value;break;
+                case "Status": status = value;break;
+                case "Operacja": operation = value;break;
                 case "TIME": dateTime = new DateTime(long.Parse(value));break;
-                case "LA": add(value);break;
+                case "LA": /*Console.WriteLine(value);*/ add(value);break;
             }
         }
         public bool add(string value)
@@ -90,16 +90,16 @@ namespace Client
                 return true;
             }
             //Liczby
-            regex = new Regex(@"\s*([\-0-9]+,{0,1}[0-9]*)\s*");
+            regex = new Regex(@"\s*(\-{0,1}[0-9]+,{0,1}[0-9]*)\s*");
             MatchCollection matchCollection = regex.Matches(value);
             if (matchCollection.Count>0)
             {
                 foreach (Match nr in matchCollection)
                 {
-                    Console.Write("_" + nr.Value + "_");
+                    //Console.Write("_" + nr.Value + "_");
                     numbers.Add(double.Parse(nr.Value));
                 }
-                Console.WriteLine();
+                //Console.WriteLine();
                 return true;
             }
             return true;
@@ -115,11 +115,11 @@ namespace Client
         }
         public string buildMessage()
         {
-            return $"ID:{id};OD:{status};OP:{operation};TIME:{dateTime.Ticks.ToString()};LA:{numbersToString()};";
+            return $"Identyfikator:{id};Status:{status};Operacja:{operation};TIME:{DateTime.Now.Ticks.ToString()};LA:{numbersToString()};";
         }
         public override string ToString()
         {
-            string result = $"TIME: {dateTime}\nID: {id}\nStatus: {status}\nOperation: {operation}\nNumbers: {numbersToString()}\n";
+            string result = $"Czas: {dateTime}\nIdentyfikator: {id}\nCzas: {dateTime.Ticks.ToString()}\nStatus: {status}\nOperacja: {operation}\nLiczby: {numbersToString()}\n";
             return result;
         }
 
