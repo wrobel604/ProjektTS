@@ -32,12 +32,8 @@ namespace Testy
                 simpleMessage.add("odejmij");
                 Console.WriteLine("operacja: " + simpleMessage.operation);
             }*/
-            string[] adress = { "127.0.0.1", "192.168.0.1", "192.168.56.1" };
-            foreach(string adres in adress)
-            {
-                Console.WriteLine(adres + "\t" + Client.RegexTests.checkIP(adres));
-            }
-            
+            Client.SimpleMessage simpleMessage = new Client.SimpleMessage($"ID: 5;OD: 1;OP: dodaj;TIME: {DateTime.Now.Ticks.ToString()};L0: 5,5E-5;L1: 7,5;");
+            Console.WriteLine(simpleMessage.ToString());
 
             Console.Read();
         }

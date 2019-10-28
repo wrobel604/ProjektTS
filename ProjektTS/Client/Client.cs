@@ -26,6 +26,7 @@ namespace Client
                         string message = null;
                         //tcpClient.listening();
                         SimpleMessage simpleMessage = new SimpleMessage();
+                        simpleMessage.operation = "pobierzid";
                         tcpClient.send(simpleMessage.buildMessage());
                         simpleMessage = new SimpleMessage(tcpClient.receiveMessage());
                         Console.WriteLine($"Połączono z serwerem o adresie {connectWindow.Adress.Text} na porcie {connectWindow.PortBox.Text}");

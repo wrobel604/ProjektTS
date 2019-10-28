@@ -105,13 +105,13 @@ namespace Server
                             int size = simpleMessage.numbers.Count - 1;
                             for (int i = 0; i < size; ++i)
                             {
-                                if (simpleMessage.numbers[i + 1] > 0 && simpleMessage.numbers[i] != 0)
+                                if (simpleMessage.numbers[i + 1] > 0 && simpleMessage.numbers[i] > 0)
                                 {
                                     result.Add(Math.Log(simpleMessage.numbers[i + 1], simpleMessage.numbers[i]));
                                 }
                                 else
                                 {
-                                    simpleMessage.status = "2";
+                                    simpleMessage.status = "5";
                                 }
 
                             }
@@ -175,9 +175,10 @@ namespace Server
             else
             {
                 simpleMessage.status = "4";
+                if (simpleMessage.operation == "pobierzid" && simpleMessage.id == "") { simpleMessage.id = (++id).ToString(); }
             }
             
-            if (simpleMessage.id == "") { simpleMessage.id = (++id).ToString(); }
+            
             simpleMessage.dateTime = DateTime.Now;
 
             Console.WriteLine("Wysłano:");

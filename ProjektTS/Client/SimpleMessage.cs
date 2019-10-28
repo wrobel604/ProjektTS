@@ -9,7 +9,7 @@ namespace Client
 {
     public class SimpleMessage : MessageBuiderInterface
     {
-        public static readonly string[] statusName = { "OK", "Przepełnienie bufora zmiennej", "Dzielenie przez zero", "Nie można pierwiastkować liczb ujemnych", "Podano zbyt mało liczb"};
+        public static readonly string[] statusName = { "OK", "Przepełnienie bufora zmiennej", "Dzielenie przez zero", "Nie można pierwiastkować liczb ujemnych", "Podano zbyt mało liczb", "Argumenty logarytmu mniejsze bądź równe 0"};
         public List<double> numbers;
         public DateTime dateTime;
         //Według implementacji odpowiedź to status
@@ -17,7 +17,7 @@ namespace Client
 
         public SimpleMessage() { numbers = new List<double>(); }
         public SimpleMessage(string message) : this(){
-            Regex regex = new Regex(@"([A-Za-z]+):([\-,a-zA-Z0-9\s]*);");
+            Regex regex = new Regex(@"([A-Za-z0-9]+): ([\-,a-zA-Z0-9\s+]*);");
             MatchCollection matchCollection = regex.Matches(message);
             if (matchCollection.Count > 0)
             {
@@ -25,21 +25,36 @@ namespace Client
                 {
                     if (match.Groups.Count == 3)
                     {
-                        //Console.WriteLine("Test:\t"+match.Groups[1].Value + "\t"+match.Groups[2].Value);
+                        Console.WriteLine("Test:\t"+match.Groups[1].Value + "\t"+match.Groups[2].Value);
                         setValue(match.Groups[1].Value, match.Groups[2].Value);
                     }
                 }
             }
         }
         public void setValue(string header, string value) {
+            // Console.Write(header+"\t"+value+"\t");
             switch (header)
             {
-                case "Identyfikator": id = value;break;
+                case "Identyfikator": Console.WriteLine($"${value}$"); id = value;break;
                 case "Status": status = value;break;
                 case "Operacja": operation = value;break;
                 case "TIME": dateTime = new DateTime(long.Parse(value));break;
-                case "LA": /*Console.WriteLine(value);*/ add(value);break;
+                default:
+                    Regex regex = new Regex(@"(L[0-9]+)");
+                    if (regex.IsMatch(header)) {
+                        double conv;
+                        if(double.TryParse(value, out conv))
+                        {
+                            addNumber(conv);
+                        }
+                    }
+
+                    break;
             }
+        }
+        public void addNumber(double nr)
+        {
+            numbers.Add(nr);
         }
         public bool add(string value)
         {
@@ -90,6 +105,7 @@ namespace Client
                 return true;
             }
             //Liczby
+            /*
             regex = new Regex(@"\s*(\-{0,1}[0-9]+,{0,1}[0-9]*)\s*");
             MatchCollection matchCollection = regex.Matches(value);
             if (matchCollection.Count>0)
@@ -101,6 +117,10 @@ namespace Client
                 }
                 //Console.WriteLine();
                 return true;
+            }*/
+            string[] numbs = value.Split(' ');
+            foreach(string n in numbs) {
+                setValue("L0", n);
             }
             return true;
         }
@@ -115,7 +135,12 @@ namespace Client
         }
         public string buildMessage()
         {
-            return $"Identyfikator:{id};Status:{status};Operacja:{operation};TIME:{DateTime.Now.Ticks.ToString()};LA:{numbersToString()};";
+            string res = $"Identyfikator: {id};Status: {status};Operacja: {operation};TIME: {DateTime.Now.Ticks.ToString()};";
+            int i=0;
+            foreach(double nr in numbers){
+                res += $"L{i++}: {nr};";
+            }
+            return res;
         }
         public override string ToString()
         {
