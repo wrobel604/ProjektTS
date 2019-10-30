@@ -16,6 +16,7 @@ namespace Client
         public string id, status, operation;
 
         public SimpleMessage() { numbers = new List<double>(); }
+        //Konstruktor tworzący obiekt na podstawie odebranej wiadomości
         public SimpleMessage(string message) : this(){
             Regex regex = new Regex(@"([A-Za-z0-9]+): ([\-,a-zA-Z0-9\s+]*);");
             MatchCollection matchCollection = regex.Matches(message);
@@ -133,6 +134,7 @@ namespace Client
             }
             return res.Trim();
         }
+        //Metoda generująca wiadomość do wysłania
         public string buildMessage()
         {
             string res = $"Identyfikator: {id};Status: {status};Operacja: {operation};TIME: {DateTime.Now.Ticks.ToString()};";

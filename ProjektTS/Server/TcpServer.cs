@@ -55,9 +55,12 @@ namespace Server
                     tcpClient = tcpListener.AcceptTcpClient();
                     networkStream = tcpClient.GetStream();
                     Console.WriteLine($"Polaczono z klientem {((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString()}");
+                    //Serwer czeka na otrzymanie wiadomości od klienta
                     while(tcpClient.Connected && (receiveddatasize = networkStream.Read(streamByteArray, 0, streamByteArray.Length)) != 0)
                     {
+                        //Przetworzenie otrzymej tablicy bajtów na postać tekstową
                         message = Encoding.ASCII.GetString(streamByteArray).Substring(0,receiveddatasize);
+                        //Wygenerowanie odpowiedzi na podstawie otrzymanej wiadomości (jeśli odpowiedź nie jest pusta zostaje ona wysłana)
                         ansver = receivedparse.parseReceived(message);
                         if (ansver.Length > 0) {
                             ansverByteArray = Encoding.ASCII.GetBytes(ansver);
