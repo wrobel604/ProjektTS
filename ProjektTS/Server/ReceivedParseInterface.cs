@@ -8,7 +8,7 @@ using System.Net.Sockets;
 
 namespace Server
 {
-    interface ReceivedParseInterface
+    public interface ReceivedParseInterface
     {
         string parseReceived(string message);
     }

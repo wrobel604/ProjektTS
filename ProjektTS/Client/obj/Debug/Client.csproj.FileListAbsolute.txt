@@ -11,3 +11,5 @@ C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Client\bin\
 C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Client\obj\Debug\Client.exe
 C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Client\obj\Debug\Client.pdb
 C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Client\obj\Debug\Client.csprojAssemblyReference.cache
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Client\obj\Debug\Client.ConnectWindow.resources
+C:\Users\wrobel604\OneDrive\Technologie sieciowe\ProjektTS\ProjektTS\Client\obj\Debug\Client.csproj.GenerateResource.cache

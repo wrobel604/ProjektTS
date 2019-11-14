@@ -8,21 +8,17 @@ using System.Net.Sockets;
 
 namespace Server
 {
-    class TcpServer
+    public class TcpServer
     {
         protected TcpListener tcpListener = null;
         protected byte[] streamByteArray = null;
+        protected TcpClient tcpClient;
+
         public int StreamBufferSize
         {
             get => (streamByteArray == null)? 0: streamByteArray.Length;
             set => streamByteArray = new byte[value];
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="listener"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public TcpServer(TcpListener listener, int buffersize = 256)
         {
             if (listener == null) throw new ArgumentNullException("Server cannot be null value");
@@ -38,6 +34,7 @@ namespace Server
                 Console.WriteLine(e.ToString());
             }
         }
+        public TcpServer(IPAddress ip, int port) : this(new TcpListener(ip, port)) { }
         ~TcpServer()
         {
             if (tcpListener != null)
@@ -47,7 +44,6 @@ namespace Server
         }
         public void Listening(ReceivedParseInterface receivedparse)
         {
-            TcpClient tcpClient;
             NetworkStream networkStream;
             int receiveddatasize = 0;
             string message = null, ansver = null;
@@ -58,19 +54,40 @@ namespace Server
                 {
                     tcpClient = tcpListener.AcceptTcpClient();
                     networkStream = tcpClient.GetStream();
-                    while((receiveddatasize = networkStream.Read(streamByteArray, 0, streamByteArray.Length)) != 0)
+                    Console.WriteLine($"Polaczono z klientem {((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString()}");
+                    //Serwer czeka na otrzymanie wiadomości od klienta
+                    while(tcpClient.Connected && (receiveddatasize = networkStream.Read(streamByteArray, 0, streamByteArray.Length)) != 0)
                     {
+                        //Przetworzenie otrzymej tablicy bajtów na postać tekstową
                         message = Encoding.ASCII.GetString(streamByteArray).Substring(0,receiveddatasize);
+                        //Wygenerowanie odpowiedzi na podstawie otrzymanej wiadomości (jeśli odpowiedź nie jest pusta zostaje ona wysłana)
                         ansver = receivedparse.parseReceived(message);
                         if (ansver.Length > 0) {
                             ansverByteArray = Encoding.ASCII.GetBytes(ansver);
                             networkStream.Write(ansverByteArray, 0, ansverByteArray.Length);
                         }
                     }
+                    Console.WriteLine("Rozlaczono z klientem");
                 }
-            }catch(Exception e)
+            }
+            catch(Exception e)
             {
                 Console.WriteLine(e.ToString());
+            }
+        }
+        public void CloseClient()
+        {
+            if(tcpClient != null)
+            {
+                tcpClient.Close();
+            }
+        }
+        public void CloseClient(string message)
+        {
+            if(tcpClient != null)
+            {
+                tcpClient.GetStream().Write(Encoding.ASCII.GetBytes(message), 0, message.Length);
+                tcpClient.Close();
             }
         }
     }

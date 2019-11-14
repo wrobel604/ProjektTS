@@ -10,58 +10,58 @@ namespace Client
 {
     class Client
     {
-        /*static NetworkStream stream = null;
-        static void receivedEvent()
-        {
-            int size;
-            byte[] data = new byte[256]; string message = null;
-
-            while (stream != null && (size = stream.Read(data, 0, data.Length)) != 0)
-            {
-                message = Encoding.ASCII.GetString(data).Substring(0,size);
-                Console.WriteLine(message);
-            }
-        }*/
         static void Main(string[] args)
         {
-            /*TcpClient client = new TcpClient();
-            
-            byte[] data = null;string message = null;
-            Task task = new Task(receivedEvent);
-            try
-            {
-                client.Connect(IPAddress.Parse("127.0.0.1"), 17);
-                stream = client.GetStream();
-                Console.WriteLine("Polaczono");
-                task.Start();
-                while (client.Connected)
-                {
-                    message = Console.ReadLine();
-                    data = Encoding.ASCII.GetBytes(message);
-                    stream.Write(data, 0, data.Length);
-                    
-                }
-            }catch(Exception e)
-            {
-                Console.WriteLine($"Exception: {e.Message}");
-            }
-            finally
-            {
-                stream = null;
-                task.Dispose();
-                client.Close();
-            }*/
             try
             {
                 TcpClientCommunication tcpClient = new TcpClientCommunication();
                 tcpClient.ReadStream = new ReadAnswerTest();
-                tcpClient.connect(IPAddress.Parse("127.0.0.1"), 17);
-                tcpClient.listening();
-                string message = null;
-                while (message != "exit")
+                ConnectWindow connectWindow = new ConnectWindow();
+                var dialogResult = connectWindow.ShowDialog();
+                if(dialogResult == System.Windows.Forms.DialogResult.OK)
                 {
-                    message = Console.ReadLine();
-                    tcpClient.send(message);
+                    tcpClient.connect(IPAddress.Parse(connectWindow.Adress.Text), int.Parse(connectWindow.PortBox.Text));
+                    if (tcpClient.isConnected)
+                    {
+                        string message = null;
+                        //tcpClient.listening();
+                        SimpleMessage simpleMessage = new SimpleMessage();
+                        simpleMessage.operation = "pobierzid";
+                        tcpClient.send(simpleMessage.buildMessage());
+                        simpleMessage = new SimpleMessage(tcpClient.receiveMessage());
+                        Console.WriteLine($"Połączono z serwerem o adresie {connectWindow.Adress.Text} na porcie {connectWindow.PortBox.Text}");
+                        Console.WriteLine("Możesz wpisywać liczby oddzielone spacją (w liczbach zmiennoprzecinkowych jest używany ',') lub znak/nazwę działania, które chcesz wykonać (jeśli wpiszesz następne działanie, poprzednie zostanie zastąpione)");
+                        Console.WriteLine("Dostępne działania:");
+                        Console.WriteLine("- dodaj (+)");
+                        Console.WriteLine("- odejmij (-)");
+                        Console.WriteLine("- mnozenie (*)");
+                        Console.WriteLine("- dzielenie (/)");
+                        Console.WriteLine("- modulo (%)");
+                        Console.WriteLine("- potega (^)");
+                        Console.WriteLine("- logarytm (log)");
+                        Console.WriteLine("- pierwiastek");
+                        Console.WriteLine("- message ");
+                        Console.WriteLine("- exit - rozłącz z serwerem");
+                        Console.WriteLine("- send - wyślij działanie");
+                        while (simpleMessage.operation != "exit")
+                        {
+                            do
+                            {
+                                Console.Write("ID: "+simpleMessage.id + "> ");
+                                message = Console.ReadLine();
+                            } while (simpleMessage.add(message));
+                            tcpClient.send(simpleMessage.buildMessage());
+                            message = tcpClient.receiveMessage();
+                            simpleMessage = new SimpleMessage(message);
+                            Console.WriteLine("Status odpowiedzi: " + SimpleMessage.statusName[int.Parse(simpleMessage.status)]);
+                            Console.WriteLine(simpleMessage.dateTime.ToString() + $" - Wynik) {simpleMessage.numbersToString()}");
+                        }
+                        tcpClient.Close();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Nie udało się połączyć z serwerem");
+                    }
                 }
             }catch(Exception e) { Console.WriteLine(e.ToString()); }
             

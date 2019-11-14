@@ -8,7 +8,7 @@ using System.Net.Sockets;
 
 namespace Client
 {
-    class ReadAnswerTest : ReadStreamInterface
+    public class ReadAnswerTest : ReadStreamInterface
     {
         protected NetworkStream stream;
         protected int dataSize;
